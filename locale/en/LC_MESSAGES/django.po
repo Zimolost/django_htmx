@@ -1,0 +1,100 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-07 18:21+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\django_htmx\settings.py:109
+msgid "English"
+msgstr "Английский"
+
+#: .\django_htmx\settings.py:110
+msgid "Russian"
+msgstr "Русский"
+
+#: .\django_htmx\settings.py:111
+msgid "简体中文"
+msgstr ""
+
+#: .\templates\base.html:7
+msgid "Books"
+msgstr ""
+
+#: .\templates\base.html:45
+msgid "No."
+msgstr ""
+
+#: .\templates\base.html:64
+msgid "Title"
+msgstr ""
+
+#: .\templates\base.html:83
+msgid "Author"
+msgstr ""
+
+#: .\templates\base.html:102
+msgid "Price ($)"
+msgstr ""
+
+#: .\templates\base.html:121
+msgid "Status"
+msgstr ""
+
+#: .\templates\base.html:140
+msgid "Actions"
+msgstr ""
+
+#: .\templates\base.html:172
+msgid "create_book"
+msgstr ""
+
+#: .\templates\base.html:174
+msgid "update_book_details"
+msgstr ""
+
+#: .\templates\base.html:180
+msgid "book_detail"
+msgstr ""
+
+#: .\templates\base.html:182
+msgid "book_list_sort"
+msgstr ""
+
+#: .\templates\partial_book_update_form.html:28
+msgid "Unread"
+msgstr ""
+
+#: .\templates\partial_book_update_form.html:33
+msgid "Read"
+msgstr ""
+
+#: .\templates\partial_book_update_form.html:47
+msgid "Save"
+msgstr ""
+
+#: .\templates\partial_book_update_form.html:54
+msgid "Cancel"
+msgstr ""
+
+#: .\templates\partial_create_book_form.html:23
+msgid "Add book"
+msgstr ""
+
+#, fuzzy
+#~| msgid "China"
+#~ msgid "Chinese"
+#~ msgstr "Китайский"
