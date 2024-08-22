@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load static %}
+{% load cache %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,6 +36,12 @@
                 <!-- Таблица книг -->
                 <form class="form-inline">
                 <table class="table table-bordered table-sm mt-5">
+                                    <!-- Начало кэширования заголовка таблицы -->
+                    {% cache 600 table_header LANGUAGE_CODE %}
+                    {% trans "id" as id %}{% trans "title" as title %}
+                    {% trans "author" as author %}{% trans "price" as price %}
+                    {% trans "read" as read %}{% trans "ascend" as ascend %}
+                    {% trans "descend" as descend %}
                     <thead>
                         <tr>
                             <!-- Заголовки столбцов таблицы -->
@@ -143,7 +150,8 @@
 
                         </tr>
                     </thead>
-
+                    {% endcache %}
+                                    <!-- Конец кэширования заголовка таблицы -->
                     <!-- Список книг -->
                     <tbody id="book-list">
                     {% include "partial_book_list.html" %}

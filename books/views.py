@@ -2,14 +2,25 @@ from django.http.response import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_http_methods
 from django.utils.translation import gettext_lazy as _
-
+from django.core.cache import cache
 
 from .models import Book
 from .forms import BookCreateForm, BookEditForm
 
+
+def delete_cache_keys():
+    # Удаляем основной кэшированный список книг
+    cache.delete('cached_book_list')
+
+    # Удаляем кэшированные отсортированные списки книг
+    for col in ('pk', 'title', 'author', 'price', 'read'):
+        cache.delete(f'cached_book_list_sorted_{col}')
+        cache.delete(f'cached_book_list_sorted_-{col}')
+
+
 @require_http_methods(['GET'])
 def book_list(request):
-    book_list = Book.objects.all()
+    book_list = cache.get_or_set('cached_book_list', Book.objects.all())
     form = BookCreateForm(auto_id=False)
     return render(request, 'base.html', {'book_list': book_list, 'form': form})
 
@@ -18,6 +29,7 @@ def create_book(request):
     form = BookCreateForm(request.POST)
     if form.is_valid:
         book = form.save()
+        delete_cache_keys()
     return render(request, 'partial_book_detail.html', {'book': book})
 
 def update_book_details(request, pk):
@@ -25,9 +37,9 @@ def update_book_details(request, pk):
     if request.method == 'POST':
         form = BookEditForm(request.POST, instance=book)
         if form.is_valid():
-            book.save()
+            book = form.save()
+            delete_cache_keys()
             return render(request, 'partial_book_detail.html', {'book': book})
-
     else:
         form = BookEditForm(instance=book)
     return render(request, 'partial_book_update_form.html', {'book': book, 'form': form})
@@ -41,6 +53,7 @@ def book_detail(request, pk):
 def delete_book(request, pk):
     book = get_object_or_404(Book, pk=pk)
     book.delete()
+    delete_cache_keys()
     return HttpResponse()
 
 # Возможность сортировки книг
@@ -53,12 +66,11 @@ def book_list_sort(request, filter, direction):
                    _('read'): 'read'}
 
     if filter in filter_dict:
-        if direction == _('ascend'):
-            book_list = Book.objects.order_by(filter_dict[filter])
-        else:
-            book_list = Book.objects.order_by('-' + filter_dict[filter])
+        sort_str = ('-', '')[direction == _('ascend')] + filter_dict[filter]
+        cache_key = 'cached_book_list_sorted_' + sort_str
+        book_list = cache.get_or_set(cache_key, Book.objects.order_by(sort_str))
     else:
-        book_list = Book.objects.all()
+        book_list = cache.get_or_set('cached_book_list', Book.objects.all())
 
     return render(request, 'partial_book_list.html', {'book_list': book_list})
 
@@ -70,4 +82,5 @@ def update_book_status(request, pk):
     else:
         book.read = True
     book.save()
+    delete_cache_keys()
     return render(request, 'partial_book_detail.html', {'book': book})
